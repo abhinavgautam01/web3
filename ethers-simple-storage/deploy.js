@@ -2,7 +2,6 @@ const { JsonRpcProvider, Wallet, ContractFactory } = require("ethers");
 const fs = require("fs");
 const dotenv = require("dotenv").config();
 
-// Address: 0xeB7096546e9E418089a016b6Aa6a245F21Dde606
 async function main() {
   const provider = new JsonRpcProvider(process.env.RPC_URL);
 
@@ -24,12 +23,14 @@ async function main() {
   console.log("Deploying your Contract..!");
 
   const contract = await contractFactory.deploy();
-  // console.log("contract: ", contract);
-  await contract.deploymentTransaction().wait(1);
+  console.log("contract: ", contract);
+  const deploymentTransaction = await contract.deploymentTransaction().wait(1);
+  console.log("deploymentTransaction: ", deploymentTransaction);
   const currentFavoriteNumber = await contract.retrieve();
   console.log("currentFavoriteNumber: ", currentFavoriteNumber.toString());
   const transactionResponse = await contract.store("3");
   const transactionReciept = await transactionResponse.wait(1);
+  console.log("transactionReciept: ", transactionReciept);
   const updatedFavoriteNumber = await contract.retrieve();
   console.log(`updatedFavoriteNumber: ${updatedFavoriteNumber}`);
 
