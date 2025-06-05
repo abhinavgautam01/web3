@@ -21,5 +21,3 @@ export const airdrop = async (address: PublicKey, amount: number) => {
     "confirmed"
   );
 };
-
-airdrop(new PublicKey("7kLbkkbC43RacU1pmdt6YXVhRjErdtnZgmrYKFHXxEsS"), 10);
