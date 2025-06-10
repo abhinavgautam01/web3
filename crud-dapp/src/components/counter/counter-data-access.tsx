@@ -36,6 +36,7 @@ export function useCounterProgram() {
 
   const createEntry = useMutation<string, Error, CreateEntryArgs>({
     mutationKey: ["journalEntry", "create", {cluster}],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mutationFn: async({ title, message, owner })=>{
       return program.methods.createJournalEntry(title, message).rpc()
     },
