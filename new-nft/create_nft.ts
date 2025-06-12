@@ -46,9 +46,12 @@ console.log("Creating NFT");
 
 const mint = generateSigner(umi);
 
+console.log("Mint Address :", mint.publicKey)
+
 const transaction = await createNft(umi, {
   mint: mint,
-  name: "My NFT",
+  name: "Talwiinder",
+  symbol: "👺",
   uri: "https://raw.githubusercontent.com/abhinavgautam01/web3/refs/heads/main/new-nft/nft_metadata.json",
   sellerFeeBasisPoints: percentAmount(0),
   collection: {
@@ -57,7 +60,13 @@ const transaction = await createNft(umi, {
   },
 });
 
-await transaction.sendAndConfirm(umi);
+await transaction.sendAndConfirm(umi, {
+    confirm: {
+        commitment: "finalized",
+    }
+});
+
+await new Promise((resolve) => setTimeout(resolve, 5000));
 
 const createdNft = await fetchDigitalAsset(umi, mint.publicKey);
 
