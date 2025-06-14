@@ -5,7 +5,7 @@ use anchor_spl::{
     token_interface:: {Mint, TokenAccount, TokenInterface},
 };
 
-use crate::transfer_tokens;
+use crate::{transfer_tokens, Offer, ANCHOR_DISCRIMINATOR};
 
 #[derive(Accounts)]
 #[instruction(id: u64)]
@@ -13,10 +13,10 @@ pub struct MakeOffer<'info> {
     #[account(mut)]
     pub maker: Signer<'info>,
 
-    #[account(mint::token_progarm = token_program)]
+    #[account(mint::token_program = token_program)]
     pub token_mint_a: InterfaceAccount<'info, Mint>,
 
-    #[account(mint::token_progarm = token_program)]
+    #[account(mint::token_program = token_program)]
     pub token_mint_b: InterfaceAccount<'info, Mint>,
 
     #[account(
@@ -72,7 +72,7 @@ pub fn save_offer(context: Context<MakeOffer>, id: u64, token_b_wanted_amount: u
         token_mint_a: context.accounts.token_mint_a.key(),
         token_mint_b: context.accounts.token_mint_b.key(),
         token_b_wanted_amount,
-        bump
+        bump: context.bumps.offer,
     });
     Ok(())
 }
