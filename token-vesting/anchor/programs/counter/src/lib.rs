@@ -200,10 +200,10 @@ pub struct EmployeeAccount {
     pub bump: u8,
 }
 
-// #[error_code]
-// pub enum ErrorCode {
-//     #[msg("Claiming is not available yet.")]
-//     ClaimNotAvailableYet,
-//     #[msg("There is nothing to claim.")]
-//     NothingToClaim,
-// }
+#[error_code]
+pub enum ErrorCode {
+    #[msg("Claiming is not available yet.")]
+    ClaimNotAvailableYet,
+    #[msg("There is nothing to claim.")]
+    NothingToClaim,
+}
