@@ -1,8 +1,7 @@
 function asciiToBytes(asciiString){
     const arr = []
     for (let i = 0; i < asciiString.length; i++){
-        const char = asciiString[i]
-        arr.push(char.charCodeAt(0))
+        arr.push(asciiString.charCodeAt(i))
     }
     return new Uint8Array(arr)
 }
