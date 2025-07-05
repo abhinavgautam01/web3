@@ -16,8 +16,9 @@ async function main() {
   console.log("pubKey: ", pubKey);
   console.log("pubkey: ", uint8ArrayToBase58(pubKey));
 
-//   const message = new TextEncoder().encode("hello world");
-//   const signature = await ed.signAsync(message, test);
+  const message = new TextEncoder().encode("hello world");
+  const signature = await ed.signAsync(message, test);
+  console.log("signature: ", uint8ArrayToBase58(signature))
 //   const isValid = await ed.verifyAsync(signature, message, pubKey);
 //   console.log("isValid: ", isValid);
 }
