@@ -16,9 +16,11 @@ import '@solana/wallet-adapter-react-ui/styles.css';
 function App() {
 
   return (
-    <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
+    <ConnectionProvider endpoint={"https://solana-devnet.g.alchemy.com/v2/Jdx7kejFF8h5mR4WqH0Ji"}>
             <WalletProvider wallets={[]} autoConnect>
                 <WalletModalProvider>
+                  <WalletMultiButton />
+                    <WalletDisconnectButton />
                     <Airdrop/>
                 </WalletModalProvider>
             </WalletProvider>
