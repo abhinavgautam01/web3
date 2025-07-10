@@ -25,9 +25,6 @@ function App() {
                   <WalletMultiButton />
                   <WalletDisconnectButton />
                 </div>
-                {/* <RequestAirdrop />
-                <ShowSolBalance /> */}
-                {/* <Tokens /> */}
                 <SignMessage />
                 <SendTokens />
               </WalletModalProvider>
