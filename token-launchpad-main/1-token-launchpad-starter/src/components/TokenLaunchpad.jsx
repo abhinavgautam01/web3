@@ -1,5 +1,7 @@
 
 export function TokenLaunchpad() {
+    function createToken (){
+    }
     return  <div style={{
         height: '100vh',
         display: 'flex',
@@ -12,6 +14,6 @@ export function TokenLaunchpad() {
         <input className='inputText' type='text' placeholder='Symbol'></input> <br />
         <input className='inputText' type='text' placeholder='Image URL'></input> <br />
         <input className='inputText' type='text' placeholder='Initial Supply'></input> <br />
-        <button className='btn'>Create a token</button>
+        <button className='btn' onClick={createToken}>Create a token</button>
     </div>
 }
