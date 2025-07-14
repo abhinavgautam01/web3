@@ -1,6 +1,28 @@
-
+import { createInitializeMint2Instruction, getMinimumBalanceForRentExemptMint, MINT_SIZE, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token"
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 export function TokenLaunchpad() {
-    function createToken (){
+
+    const wallet = useWallet();
+    const connection = useConnection();
+
+    async function createToken (){
+        const mintKeypair = Keypair.generate()
+        const lamports = await getMinimumBalanceForRentExemptMint(connection);
+        
+        const transaction = new Transaction().add(
+            SystemProgram.createAccount({
+                fromPubkey: wallet.publicKey,
+                newAccountPubkey: mintKeypair.publicKey,
+                space: MINT_SIZE,
+                lamports,
+                programId: TOKEN_2022_PROGRAM_ID,
+            }),
+            createInitializeMint2Instruction(mintKeypair.publicKey, 9, wallet.publicKey, wallet.publicKey, TOKEN_2022_PROGRAM_ID),
+        );
+
+        transaction.partialSign(mintKeypair)
+        await wallet.signTransaction(transaction)
     }
     return  <div style={{
         height: '100vh',
