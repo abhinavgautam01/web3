@@ -20,7 +20,8 @@ export function SendTokens() {
         alert("Sent " + amount + " SOL to " + to);
     }
 
-    return <div style={{gap: "30px", display: "flex", margin: "10px"}}>
+    return <div style={{gap: "30px", display: "flex", margin: "10px", fontWeight: "bold", fontSize: "18px"}}>
+        Send SOL:
         <input id="to" type="text" placeholder="To" />
         <input id="amount" type="text" placeholder="Amount" />
         <button onClick={sendTokens}>Send</button>
