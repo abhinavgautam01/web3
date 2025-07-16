@@ -26,28 +26,26 @@ function App() {
         <WalletModalProvider>
           <div
             style={{
-              width: "100%",
+              width: "100vw",
               display: "flex",
               justifyContent: "space-between",
               boxSizing: "border-box",
-              margin: "20px"
+              padding: "20px",
             }}
           >
             <WalletMultiButton />
             <WalletDisconnectButton />
           </div>
         </WalletModalProvider>
-          <div
-            style={{
-              height: "100vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <TokenLaunchpad />
-          </div>
+        <div
+          style={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <TokenLaunchpad />
+        </div>
       </WalletProvider>
     </ConnectionProvider>
   );
