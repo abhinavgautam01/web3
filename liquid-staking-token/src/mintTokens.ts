@@ -19,9 +19,8 @@ const connection = new Connection("https://api.devnet.solana.com");
 const wallet = Keypair.fromSecretKey(Uint8Array.from(PRIVATE_KEY))
 const mint = new PublicKey(TOKEN_MINT_ADDRESS);
 
-export async function mintTokens(fromAddres: string, amount: number) {
-  const recipient = new PublicKey(fromAddres);
-  console.log(wallet.publicKey);
+export async function mintTokens(fromAddress: string, amount: number) {
+  const recipient = new PublicKey(fromAddress);
 
   const tokenAccount = await getOrCreateAssociatedTokenAccount(
     connection,
@@ -44,6 +43,7 @@ export async function mintTokens(fromAddres: string, amount: number) {
     undefined,
     TOKEN_2022_PROGRAM_ID
   );
+  console.log(`Minted ${amount} Tokens to ${fromAddress} in his/her associated token account ${tokenAccount.address}`)
 }
 
 export const burnTokens = async (fromAddress: string, amount: number) => {

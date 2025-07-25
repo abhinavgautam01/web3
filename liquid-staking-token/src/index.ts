@@ -24,7 +24,7 @@ app.post("/helius", async (req: Request, res: Response) => {
   );
 
   if (!incomingTxn) {
-    return res.status(400).send("No matching transfer to vault");
+    return res.status(200).send("Address Not matched to Vault address..!");
   }
 
   const fromAddress = incomingTxn.fromUserAccount;
@@ -35,9 +35,9 @@ app.post("/helius", async (req: Request, res: Response) => {
   try {
     if (type === "received_native_sol") {
         await mintTokens(fromAddress, amount);
-        } else {
-            await burnTokens(fromAddress, amount);
-      await sendNativeTokens(toAddress, amount);
+    } else {
+        await burnTokens(fromAddress, amount);
+        await sendNativeTokens(toAddress, amount);
     }
     res.send("Transaction successful");
   } catch (err) {
@@ -47,5 +47,5 @@ app.post("/helius", async (req: Request, res: Response) => {
 });
 
 app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+    console.log("Server is running on port http://localhost:3000");
 });
