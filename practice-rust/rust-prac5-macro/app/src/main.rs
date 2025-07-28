@@ -1,3 +1,4 @@
+use std::fmt::Error;
 use serialize_macro::{SerializeNumberStruct, DeserializeNumberStruct};
 use serialize_macro_traits::{Serialize, Deserialize};
 
@@ -13,7 +14,7 @@ fn main() {
     let s = Swap {
         qty_1: 1,
         qty_2: 2,
-        qty_3: 1000
+        qty_3: 3
     };
     let bytes = s.serialize();
     println!("{:?}", bytes);
