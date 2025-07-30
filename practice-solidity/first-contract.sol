@@ -9,17 +9,18 @@ contract User {
         address addr;
     }
 
-    Person p1;
+    mapping(address=>Person) public persons;
 
-    constructor() {
-        p1 = Person (
-            "Golu",
-            21,
-            msg.sender
-        );
+    function setPersons(string memory _name, uint age)public {
+        persons[msg.sender]=Person({
+            name: _name,
+            age: age,
+            addr: msg.sender
+        });
     }
 
-    function getPerson() public view returns(string memory){
-        return p1.name;
+    function getPerson() public view returns(string memory, uint, address){
+        Person memory person = persons[msg.sender];
+        return (person.name, person.age, person.addr);
     }
 }
