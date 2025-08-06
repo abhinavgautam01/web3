@@ -8,6 +8,9 @@ import "src/TokenProgram.sol";
 contract TestTokenProgram is Test {
     TokenProgram c;
 
+    event Transfer(address indexed from, address indexed to, uint amount);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
     function setUp() public {
         c = new TokenProgram();
     }
@@ -22,11 +25,17 @@ contract TestTokenProgram is Test {
 
     function testTransfer() public {
         c.mint(address(this), 100);
+
+        vm.expectEmit(true, true, false, true);
+        emit Transfer(address(this), 0xde49A9728ef9Bbb83969d74F878360732d42E12b, 50);
+
         c.transfer(0xde49A9728ef9Bbb83969d74F878360732d42E12b, 50);
 
         assertEq(c.balanceOf(address(this)), 50, "ok");
         assertEq(c.balanceOf(0xde49A9728ef9Bbb83969d74F878360732d42E12b), 50, "ok");
 
+        vm.expectEmit(true, true, false, true);
+        emit Transfer(0xde49A9728ef9Bbb83969d74F878360732d42E12b, address(this), 50);
         vm.prank(0xde49A9728ef9Bbb83969d74F878360732d42E12b);
         c.transfer(address(this), 50);
 
@@ -64,4 +73,38 @@ contract TestTokenProgram is Test {
         vm.expectRevert();
         c.transfer(0xde49A9728ef9Bbb83969d74F878360732d42E12b, 110);
     }
+
+    function testApprovalEmit() public {
+        c.mint(address(this), 50);
+
+        vm.expectEmit(true, true, false, true);
+        emit Approval(address(this), 0xde49A9728ef9Bbb83969d74F878360732d42E12b, 20);
+        c.approve(0xde49A9728ef9Bbb83969d74F878360732d42E12b, 20);
+    }
+
+    function testStartPrank () public {
+        c.mint(address(this), 100);
+        c.transfer(0xde49A9728ef9Bbb83969d74F878360732d42E12b, 50);
+
+        vm.startPrank(0xde49A9728ef9Bbb83969d74F878360732d42E12b);
+        c.transfer(address(this), 10);
+        c.transfer(address(this), 10);
+        c.transfer(address(this), 10);
+        vm.stopPrank();
+    }
+
+    function testDealExample() public {
+        address account = 0xde49A9728ef9Bbb83969d74F878360732d42E12b;
+
+        vm.deal(account, 10 ether);
+
+        assertEq(address(account).balance, 10 ether, "ok");
+    }
+
+    function testHoax() public{
+        hoax(0xde49A9728ef9Bbb83969d74F878360732d42E12b, 100 ether);
+        c.test{value:100 ether}();
+        assertEq(c.getBalance(), 100 ether, "ok");
+    }
+
 }

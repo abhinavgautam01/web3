@@ -13,4 +13,12 @@ contract TokenProgram is ERC20, Ownable {
     function mint(address to, uint amount) public onlyOwner() {
         _mint(to, amount);
     }
+
+    function test() public payable {
+        
+    }
+
+    function getBalance() public view returns(uint) {
+        return address(this).balance;
+    }
 }
