@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.13;
 
-import { Ownable } from "node_modules/@openzeppelin/contracts/access/Ownable.sol";
-import { IERC20 } from "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface IBUSDT is IERC20 {
     function mint(address _to, uint _amount) external;
     function burn(address _from, uint _amount) external;
 }
 
-contract BridgeBase {
+contract BridgeBase is Ownable{
     address public tokenAddress;
     mapping (address => uint) public pendingBalances;
 
@@ -26,7 +26,7 @@ contract BridgeBase {
     }
 
     function burn(IBUSDT _tokenAddress, uint _amount) public {
-        require(_tokenAddress==tokenAddress);
+        require(address(_tokenAddress)==tokenAddress);
         _tokenAddress.burn(msg.sender, _amount);
         emit Burn(msg.sender, _amount);
     }
