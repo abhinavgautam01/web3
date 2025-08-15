@@ -2,7 +2,7 @@
 pragma solidity ^0.8.3;
 
 contract StakingContract {
-    mapping(address=> uint) public balances;
+    mapping(address=> uint) public stakedBalances;
     uint public totalSupply;
 
     event ETHStaked(address indexed _user, uint _amount);
@@ -12,7 +12,7 @@ contract StakingContract {
         require(_amount == msg.value, "ETH send and the amount mismatched");
         require(_amount > 0, "Amount should be greater than zero.");
 
-        balances[msg.sender] += _amount;
+        stakedBalances[msg.sender] += _amount;
         totalSupply += _amount;
 
         emit ETHStaked(msg.sender, _amount);
@@ -20,9 +20,9 @@ contract StakingContract {
 
     function unstake(uint _amount) public{
         require(_amount > 0, "Amount should be greater than zero.");
-        require(_amount <= balances[msg.sender], "Amount is greater than the amount Staked.");
+        require(_amount <= stakedBalances[msg.sender], "Amount is greater than the amount Staked.");
 
-        balances[msg.sender] -= _amount;
+        stakedBalances[msg.sender] -= _amount;
         totalSupply -= _amount;
         payable(msg.sender).transfer(_amount);
 
