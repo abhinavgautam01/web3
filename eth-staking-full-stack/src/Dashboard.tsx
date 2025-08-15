@@ -22,6 +22,16 @@ export default function Dashboard() {
             <div>
                 <ShowStake />
             </div>
+            {<button className="mx-2 border rounded px-2 text-2xl" onClick={()=>{
+                writeContract({
+                    address: '0x51fac1b64f2329519e68595937ea58eb83803c91',
+                    abi,
+                    functionName: 'unstake',
+                    args: [BigInt(1000000000000000000)],
+                })
+            }}>
+                UnStake
+            </button>}
         </div>
       
     </div>
