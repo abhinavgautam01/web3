@@ -10,6 +10,8 @@ node_modules/
 *.json
 !.anchor
 !.vscode
+!package.json
+!**/package.json
 
 # Anchor build artifacts
 target/
