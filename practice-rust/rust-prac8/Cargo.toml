@@ -1,0 +1,9 @@
+[package]
+name = "rust-prac8"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = "0.4.41"
+dotenv = "0.15.0"
+uuid = { version = "1.18.0", features = ["v4"]}
