@@ -21,7 +21,7 @@ fn process_instruction (
     // let acc = next_account_info(&mut accounts.iter())?;
     let mut iter = accounts.iter();
     let data_account = next_account_info(&mut iter)?;
-
+    
     let mut stored_data = DoubleContractData::try_from_slice(& data_account.data.borrow_mut())?;
 
     if stored_data.number == 0 {

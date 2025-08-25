@@ -14,7 +14,7 @@ test("one transfer", () => {
     const contractKey = PublicKey.unique();
     svm.addProgramFromFile(contractKey, "./double_contract.so");
 	const payer = new Keypair();
-	svm.airdrop(payer.publicKey, BigInt(LAMPORTS_PER_SOL));
+	svm.airdrop(payer.publicKey, BigInt(5 * LAMPORTS_PER_SOL));
 	const blockhash = svm.latestBlockhash();
     const dataAccount = Keypair.generate();
 	const ixs = [
@@ -34,15 +34,32 @@ test("one transfer", () => {
 	tx.sign(payer, dataAccount);
 	svm.sendTransaction(tx);
     const balanceAfter = svm.getBalance(dataAccount.publicKey);
-    console.log("Lamports Value: ", svm.minimumBalanceForRentExemption(BigInt(4)))
+    // console.log("Lamports Value: ", svm.minimumBalanceForRentExemption(BigInt(4)))
     expect(balanceAfter).toBe(svm.minimumBalanceForRentExemption(BigInt(4)));
-
-    new TransactionInstruction ({
-        keys: [
-            {pubkey: dataAccount.publicKey, isSigner: true, isWritable: true},
-        ],
-        programId: this.programId,
-        data
-    })
-
+    function double_it(){
+        const ix2 = new TransactionInstruction ({
+            keys: [
+                {pubkey: dataAccount.publicKey, isSigner: false, isWritable: true},
+            ],
+            programId: contractKey,
+            data: Buffer.from([])
+        });
+        
+        const blockhash = svm.latestBlockhash();
+        const tx2 = new Transaction();
+        tx2.recentBlockhash = blockhash;
+        tx2.feePayer = payer.publicKey;
+        tx2.add(ix2);
+        tx2.sign(payer);
+        svm.sendTransaction(tx2);
+        svm.expireBlockhash();
+    }
+    double_it();
+    double_it();
+    double_it();
+    double_it();
+    
+    const newDataAccount = svm.getAccount(dataAccount.publicKey);
+    
+    console.log("NewDataAccount: ", newDataAccount);
 });
