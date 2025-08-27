@@ -34,7 +34,7 @@ test("one transfer", () => {
 	tx.sign(payer, dataAccount);
 	svm.sendTransaction(tx);
     const balanceAfter = svm.getBalance(dataAccount.publicKey);
-    // console.log("Lamports Value: ", svm.minimumBalanceForRentExemption(BigInt(4)))
+    
     expect(balanceAfter).toBe(svm.minimumBalanceForRentExemption(BigInt(4)));
     function double_it(){
         const ix2 = new TransactionInstruction ({
@@ -60,6 +60,9 @@ test("one transfer", () => {
     double_it();
     
     const newDataAccount = svm.getAccount(dataAccount.publicKey);
-    
-    console.log("NewDataAccount: ", newDataAccount);
+
+    expect(newDataAccount?.data[0]).toBe(8);
+    expect(newDataAccount?.data[1]).toBe(0);
+    expect(newDataAccount?.data[2]).toBe(0);
+    expect(newDataAccount?.data[3]).toBe(0);
 });
