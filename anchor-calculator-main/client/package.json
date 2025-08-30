@@ -1,0 +1,15 @@
+{
+  "name": "client",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "borsh": "^2.0.0",
+    "litesvm": "0.2.0"
+  }
+}
