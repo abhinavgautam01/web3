@@ -8,7 +8,7 @@ pub mod cpi_contract {
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {          
         let accounts = vec![
-            AccountMeta::new(*ctx.accounts.data_account.key, false),
+            AccountMeta::new(*ctx.accounts.data_account.key, true),
             AccountMeta::new(*ctx.accounts.user_account.key, true),
             AccountMeta::new_readonly(anchor_lang::system_program::ID, false),
         ];
@@ -60,7 +60,7 @@ pub struct Initialize<'info> {
     #[account(mut)]
     pub data_account: AccountInfo<'info>,
     #[account(mut)]
-    pub user_account: AccountInfo<'info>,
+    pub user_account: Signer<'info>,
     pub system_program: Program<'info, System>,
     pub cpi_program: AccountInfo<'info>,
 }
