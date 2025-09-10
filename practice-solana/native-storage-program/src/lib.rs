@@ -38,12 +38,23 @@ pub fn process_instruction(
             name_account_data.serialize(&mut *name_account.data.borrow_mut())?;
         }
 
+        // NameInstruction::Update(update_name) => {
+        //     let mut name_account_data = NameAccount::try_from_slice(&name_account.data.borrow())?;
+        //     name_account_data.name = update_name;
+        //     name_account_data.serialize(&mut *name_account.data.borrow_mut())?;
+        // }
+
         NameInstruction::Update(update_name) => {
-            let mut name_account_data = NameAccount::try_from_slice(&name_account.data.borrow())?;
+            let mut name_account_data =
+                NameAccount::try_from_slice(&name_account.data.borrow())
+                    .unwrap_or(NameAccount { name: String::new() });
             name_account_data.name = update_name;
-            name_account_data.serialize(&mut *name_account.data.borrow_mut())?;
+
+            let mut data = name_account.data.borrow_mut();
+            data.fill(0);
+            name_account_data.serialize(&mut *data)?;
+            }
         }
-    }
 
     Ok(())
 }
