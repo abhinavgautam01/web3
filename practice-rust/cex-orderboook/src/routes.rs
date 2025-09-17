@@ -7,7 +7,7 @@ use crate::{input::{CreateOrderInput, DeleteOrder}, orderbook::Orderbook, output
 
 
 #[post("/order")]
-pub async fn create_order(order: Json<CreateOrderInput>, orderbook:Data<Arc<Mutex<Orderbook>>>) -> impl Responder {
+pub async fn create_order(mut order: Json<CreateOrderInput>, orderbook:Data<Arc<Mutex<Orderbook>>>) -> impl Responder {
     // let price = order.0.price;
     // let quantity = order.0.quantity;
     // let user_id = order.0.user_id;
@@ -19,16 +19,18 @@ pub async fn create_order(order: Json<CreateOrderInput>, orderbook:Data<Arc<Mute
     // return HttpResponse::Ok().json(CreateOrderResponse {
     //     order_id: String::from("order1")
     // });
-    println!("Hello");
-    println!("{:?}", order);
-    let mut orderbook = orderbook.lock().unwrap();
-    let orderbook = orderbook.create_order(order.0);
-    HttpResponse::Ok().json(orderbook)
+    let mut orderbook_guard = orderbook.lock().unwrap();
+    let order_id = orderbook_guard.order_id_index.to_string();
+    orderbook_guard.create_order(&mut order.0);
+    
+    HttpResponse::Ok().json(CreateOrderResponse {
+        order_id
+    })
 }
 
 
 #[delete("/cancel")]
-pub async fn cancel_order(Json(order): Json<DeleteOrder>, orderbook:Data<Arc<Mutex<Orderbook>>>) -> impl Responder {
+pub async fn cancel_order(Json(mut order): Json<DeleteOrder>, orderbook:Data<Arc<Mutex<Orderbook>>>) -> impl Responder {
     // let _order_id = order.order_id;
 
     // return HttpResponse::Ok().json(DeleteOrderResponse {
@@ -37,8 +39,8 @@ pub async fn cancel_order(Json(order): Json<DeleteOrder>, orderbook:Data<Arc<Mut
     // });
 
     let mut orderbook = orderbook.lock().unwrap();
-    let orderbook = orderbook.delete_order(order);
-    HttpResponse::Ok().json(orderbook)
+    let orderbook = orderbook.delete_order(&mut order);
+    HttpResponse::Ok().json(order)
 }
 
 #[get("/depth")]

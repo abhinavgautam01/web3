@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Clone,)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CreateOrderInput {
     pub price: u32,
     pub quantity: u32,

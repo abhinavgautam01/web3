@@ -40,7 +40,7 @@ impl Orderbook {
 }
 
 impl Orderbook {
-    pub fn create_order(&mut self, order: CreateOrderInput) {
+    pub fn create_order(&mut self, order: &mut CreateOrderInput) {
         let order_id = self.order_id_index.to_string();
         self.order_id_index += 1;
         match order.side {
@@ -49,7 +49,7 @@ impl Orderbook {
                     price: order.price,
                     qty: order.quantity,
                     side: order.side,
-                    user_id: order.user_id,
+                    user_id: order.user_id.clone(),
                     order_id: order_id,
                     filled_quantity: 0,
                 };
@@ -60,7 +60,7 @@ impl Orderbook {
                     price: order.price,
                     qty: order.quantity,
                     side: order.side,
-                    user_id: order.user_id,
+                    user_id: order.user_id.clone(),
                     order_id,
                     filled_quantity: 0,
                 };
@@ -69,7 +69,7 @@ impl Orderbook {
         }
     }
 
-    pub fn delete_order(&mut self, order: DeleteOrder) {
+    pub fn delete_order(&mut self, order: &mut DeleteOrder) {
         // Find and remove from bids
         if let Some(price) = self.bids.iter().find_map(|(price, orders)| {
             if orders.iter().any(|o| o.order_id == order.order_id) {
